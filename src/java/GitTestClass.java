@@ -8,5 +8,5 @@
  * @author Arno
  */
 public class GitTestClass {
-     
+     //mai
 }
