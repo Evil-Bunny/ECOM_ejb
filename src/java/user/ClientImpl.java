@@ -1,19 +1,22 @@
 package user;
 
-import product.Product;
-import user.data.Adresse;
-import user.data.BankInformation;
-import user.data.PaypalInformation;
 
 /**
  * Class of a product
  * @author Arno
  * @creation date 2013-10-18
- * @last modification date 2013-10-18
+ * @last modification date 2013-10-23
  */
+
+
 import java.util.List;
 
+import product.Product;
+import user.data.Adresse;
+import user.data.BankInformation;
+import user.data.PaypalInformation;
 import command.*;
+import exceptions.CommandGestionException;
 
 public class ClientImpl implements Client{
     protected Adresse adresse;
@@ -21,7 +24,12 @@ public class ClientImpl implements Client{
     protected List<String> surname;
     protected int id;
     protected Command command;
+    protected PaypalInformation payapal = null;
+    protected BankInformation bank = null;
 
+    public ClientImpl(){
+        /* TO COMPLETE */
+    }
     
     @Override
     public void changeAdresse(Adresse adr) {
@@ -42,23 +50,27 @@ public class ClientImpl implements Client{
     }
 
     @Override
-    public void delProduct(Product product, int n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void delProduct(Product product, int n) 
+            throws CommandGestionException {
+        if (command == null) {
+            throw new CommandGestionException("No command found for this client");
+        }
+        command.delProduct(product.getId(), n);
     }
 
     @Override
     public void enterAdresse(Adresse adr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.adresse = adr;
     }
 
     @Override
     public void enterPaypal(PaypalInformation pi) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.payapal = pi;
     }
 
     @Override
-    public void enterPaypal(BankInformation bi) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void enterBank(BankInformation bi) {
+        this.bank = bi;
     }
     
 }

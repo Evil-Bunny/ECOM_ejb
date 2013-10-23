@@ -4,13 +4,13 @@ package user;
  * Interface of a client
  * @author Arno
  * @creation date 2013-10-18
- * @last modification date 2013-10-18
+ * @last modification date 2013-10-23
  */
+import exceptions.CommandGestionException;
 import user.data.*;
 import product.Product;
 
-public interface Client {
-    
+public interface Client { 
     /*
      * @params adr : user.data.Adresse
      * Set the client adresse to adr
@@ -33,9 +33,12 @@ public interface Client {
     /*
      * @params product
      * @params n
+     * @throws an exception when the command does not exist or
+     * product is not in with this amount
      * Remove n times the product to the client command
      */
-    public void delProduct(Product product, int n);
+    public void delProduct(Product product, int n)
+            throws CommandGestionException;
     
     /*
      * @params adr : the adresse for the command
@@ -53,6 +56,6 @@ public interface Client {
      * @params bi : the bank information for the payement
      * Enter the credit card information     
      */
-    public void enterPaypal (BankInformation bi);
+    public void enterBank (BankInformation bi);
     
 }
