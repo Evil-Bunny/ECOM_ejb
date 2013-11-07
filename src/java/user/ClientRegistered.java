@@ -9,8 +9,8 @@ package user;
 public interface ClientRegistered {
     
     /*
-     * @params c : an existing client who want to register
-     * @params login : the login chose by the client
+     * @params c : an existing client who wants to register
+     * @params login : the login chosen by the client
      * @params pwd : the password for this account
      * @return the client with registered informations
      * Register a client
