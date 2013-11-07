@@ -12,16 +12,16 @@ import product.Product;
 
 public interface Client { 
     /*
-     * @params adr : user.data.Adresse
+     * @params adr : user.data.Address
      * Set the client adresse to adr
      */
-    public void changeAdresse (Adresse adr);
+    public void changeAdresse (Address adr);
     
     /*
-     * @return int : the user unique identifier
+     * @return Long : the user unique identifier
      * Return the client identifier
      */
-    public int getIdentifier();
+    public Long getIdentifier();
     
     /*
      * @params product
@@ -44,7 +44,7 @@ public interface Client {
      * @params adr : the adresse for the command
      * Enter the adresse information     
      */
-    public void enterAdresse (Adresse adr);
+    public void enterAdresse (Address adr);
     
     /*
      * @params pi : the paypal information for the payement

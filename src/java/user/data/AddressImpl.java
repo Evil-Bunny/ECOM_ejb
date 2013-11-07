@@ -1,4 +1,4 @@
-package ejb;
+package user.data;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -10,21 +10,28 @@ import javax.persistence.Id;
  * @author Samy
  */
 @Entity
-public class ProductEntity implements Serializable {
+public class AddressImpl implements Serializable, Address {
     private static final long serialVersionUID = 1L;
-    private String brand;
+    private int number;
     private String name;
-    private Float price;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public String getBrand() {
-        return brand;
+    public Long getId() {
+        return id;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public String getName() {
@@ -33,22 +40,6 @@ public class ProductEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
@@ -61,10 +52,10 @@ public class ProductEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductEntity)) {
+        if (!(object instanceof AddressImpl)) {
             return false;
         }
-        ProductEntity other = (ProductEntity) object;
+        AddressImpl other = (AddressImpl) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -73,7 +64,7 @@ public class ProductEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ejb.ProductEntity[ id=" + id + " ]";
+        return "user.data.AddressImpl[ id=" + id + " ]";
     }
-    
+
 }

@@ -9,20 +9,24 @@ package user;
  */
 
 
-import java.util.List;
 
 import product.Product;
-import user.data.Adresse;
+import user.data.Address;
 import user.data.BankInformation;
 import user.data.PaypalInformation;
 import command.*;
 import exceptions.CommandGestionException;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-public class ClientImpl implements Client{
-    protected Adresse adresse;
-    protected List<String> firstname;
-    protected List<String> surname;
-    protected int id;
+@Entity
+public class ClientImpl implements Client, Serializable{
+    protected Address address;
+    protected String firstname;
+    protected String surname;
+    @Id
+    protected Long id;
     protected Command command;
     protected PaypalInformation payapal = null;
     protected BankInformation bank = null;
@@ -30,14 +34,38 @@ public class ClientImpl implements Client{
     public ClientImpl(){
         /* TO COMPLETE */
     }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
     
     @Override
-    public void changeAdresse(Adresse adr) {
-        this.adresse = adr;
+    public void changeAdresse(Address adr) {
+        this.address = adr;
     }
 
     @Override
-    public int getIdentifier() {
+    public Long getIdentifier() {
         return this.id;
     }
 
@@ -59,8 +87,8 @@ public class ClientImpl implements Client{
     }
 
     @Override
-    public void enterAdresse(Adresse adr) {
-        this.adresse = adr;
+    public void enterAdresse(Address adr) {
+        this.address = adr;
     }
 
     @Override
@@ -71,6 +99,14 @@ public class ClientImpl implements Client{
     @Override
     public void enterBank(BankInformation bi) {
         this.bank = bi;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
 }

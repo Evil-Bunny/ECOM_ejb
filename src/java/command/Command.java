@@ -7,12 +7,12 @@ package command;
  * @last modification date 2013-10-18
  */
 import exceptions.CommandGestionException;
+import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 
 import product.Product;
 
-public interface Command {
+public interface Command extends Serializable {
     
     /*
      * @params p : a product to add to this command
