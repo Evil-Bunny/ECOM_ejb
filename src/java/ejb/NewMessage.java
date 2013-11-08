@@ -15,6 +15,7 @@ import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import user.ClientImpl;
 
 /**
  *
@@ -40,7 +41,7 @@ public class NewMessage implements MessageListener {
     try {
         if (message instanceof ObjectMessage) {
             msg = (ObjectMessage) message;
-            ProductEntity e = (ProductEntity) msg.getObject();
+            ClientImpl e = (ClientImpl) msg.getObject();
             save(e);
         }
     } catch (JMSException e) {
