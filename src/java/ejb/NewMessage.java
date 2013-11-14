@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ejb;
 
 import javax.annotation.Resource;
@@ -16,45 +15,53 @@ import javax.jms.ObjectMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import user.ClientImpl;
+import user.data.AddressImpl;
 
 /**
  *
  * @author nb
  */
-@MessageDriven(mappedName = "jms/NewMessage", activationConfig =  {
-        @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
-    })
+@MessageDriven(mappedName = "jms/NewMessage", activationConfig = {
+    @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
+})
 public class NewMessage implements MessageListener {
 
     @Resource
     private MessageDrivenContext mdc;
     @PersistenceContext(unitName = "ECOM-ejbPU")
     private EntityManager em;
-    
+
     public NewMessage() {
     }
 
     public void onMessage(Message message) {
 
         ObjectMessage msg = null;
-    try {
-        if (message instanceof ObjectMessage) {
-            msg = (ObjectMessage) message;
-            ClientImpl e = (ClientImpl) msg.getObject();
-            save(e);
+        try {
+            if (message instanceof ObjectMessage) { 
+                msg = (ObjectMessage) message;
+                if (msg.getObject() instanceof AddressImpl) {
+                    AddressImpl e = (AddressImpl) msg.getObject();
+                    save(e);
+                } else if (msg.getObject() instanceof ClientImpl) {
+                    ClientImpl e = (ClientImpl) msg.getObject();
+                    save(e);
+                }
+
+                
+            }
+        } catch (JMSException e) {
+            e.printStackTrace();
+            mdc.setRollbackOnly();
+        } catch (Throwable te) {
+            te.printStackTrace();
         }
-    } catch (JMSException e) {
-        e.printStackTrace();
-        mdc.setRollbackOnly();
-    } catch (Throwable te) {
-        te.printStackTrace();
-    }
 
     }
 
     public void save(Object object) {
         em.persist(object);
+        em.flush();
     }
-    
 }

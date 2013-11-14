@@ -11,21 +11,27 @@ package user;
 
 
 import product.Product;
-import user.data.Address;
 import user.data.BankInformation;
 import user.data.PaypalInformation;
 import command.*;
 import exceptions.CommandGestionException;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import user.data.AddressImpl;
 
 @Entity
 public class ClientImpl implements Client, Serializable{
-    protected Address address;
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    protected AddressImpl address;
     protected String firstname;
     protected String surname;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
     protected Command command;
     protected PaypalInformation payapal = null;
@@ -51,16 +57,16 @@ public class ClientImpl implements Client, Serializable{
         this.surname = surname;
     }
 
-    public Address getAddress() {
+    public AddressImpl getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressImpl address) {
         this.address = address;
     }
     
     @Override
-    public void changeAdresse(Address adr) {
+    public void changeAdresse(AddressImpl adr) {
         this.address = adr;
     }
 
@@ -87,7 +93,7 @@ public class ClientImpl implements Client, Serializable{
     }
 
     @Override
-    public void enterAdresse(Address adr) {
+    public void enterAdresse(AddressImpl adr) {
         this.address = adr;
     }
 

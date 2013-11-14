@@ -15,7 +15,7 @@ public interface Client {
      * @params adr : user.data.Address
      * Set the client adresse to adr
      */
-    public void changeAdresse (Address adr);
+    public void changeAdresse (AddressImpl adr);
     
     /*
      * @return Long : the user unique identifier
@@ -44,7 +44,7 @@ public interface Client {
      * @params adr : the adresse for the command
      * Enter the adresse information     
      */
-    public void enterAdresse (Address adr);
+    public void enterAdresse (AddressImpl adr);
     
     /*
      * @params pi : the paypal information for the payement

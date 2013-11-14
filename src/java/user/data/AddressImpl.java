@@ -10,7 +10,7 @@ import javax.persistence.Id;
  * @author Samy
  */
 @Entity
-public class AddressImpl implements Serializable, Address {
+public class AddressImpl implements Serializable {
     private static final long serialVersionUID = 1L;
     private int number;
     private String name;
