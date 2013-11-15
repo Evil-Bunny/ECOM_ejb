@@ -11,7 +11,7 @@ import javax.persistence.Id;
  */
 @Entity
 public class ProductEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
     private String brand;
     private String name;
     private Float price;

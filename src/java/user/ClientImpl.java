@@ -22,6 +22,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import user.data.AddressImpl;
 
 @Entity
@@ -33,6 +34,7 @@ public class ClientImpl implements Client, Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
+    @OneToOne(cascade=CascadeType.PERSIST)
     protected Command command;
     protected PaypalInformation payapal = null;
     protected BankInformation bank = null;

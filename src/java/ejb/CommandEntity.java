@@ -6,36 +6,40 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import product.Product;
 
 /**
  * @author Samy
  */
 @Entity
 public class CommandEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private HashMap<Integer, Product> products;
-    private HashMap<Integer, Integer> quantity;
+    private HashMap<ProductEntity, Integer> products;
 
-    public HashMap<Integer, Product> getProducts() {
+    public CommandEntity() {
+        products = new HashMap<>();
+    }
+
+    
+    public HashMap<ProductEntity, Integer> getProducts() {
         return products;
     }
 
-    public void setProducts(HashMap<Integer, Product> products) {
+    public void setProducts(HashMap<ProductEntity, Integer> products) {
         this.products = products;
     }
 
-    public HashMap<Integer, Integer> getQuantity() {
-        return quantity;
+    public Integer getQuantity(ProductEntity p) {
+        return products.get(p);
     }
 
-    public void setQuantity(HashMap<Integer, Integer> quantity) {
-        this.quantity = quantity;
+    public void setQuantity(ProductEntity p, Integer i) {
+        products.put(p, i);
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -68,5 +72,4 @@ public class CommandEntity implements Serializable {
     public String toString() {
         return "ejb.CommandEntity[ id=" + id + " ]";
     }
-
 }
