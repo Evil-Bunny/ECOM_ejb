@@ -6,9 +6,9 @@ package user;
  * @creation date 2013-10-18
  * @last modification date 2013-10-23
  */
+import ejb.ProductEntity;
 import exceptions.CommandGestionException;
 import user.data.*;
-import product.Product;
 
 public interface Client { 
     /*
@@ -28,7 +28,7 @@ public interface Client {
      * @params n
      * Add n times the product to the client command
      */
-    public void addProduct(Product product, int n);
+    public void addProduct(ProductEntity product, int n);
     
     /*
      * @params product
@@ -37,7 +37,7 @@ public interface Client {
      * product is not in with this amount
      * Remove n times the product to the client command
      */
-    public void delProduct(Product product, int n)
+    public void delProduct(ProductEntity product, int n)
             throws CommandGestionException;
     
     /*

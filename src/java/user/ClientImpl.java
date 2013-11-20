@@ -1,19 +1,18 @@
 package user;
 
-
 /**
  * Class of a product
+ *
  * @author Arno
  * @creation date 2013-10-18
  * @last modification date 2013-10-23
  */
-
-
-
 import product.Product;
 import user.data.BankInformation;
 import user.data.PaypalInformation;
 import command.*;
+import ejb.CommandEntity;
+import ejb.ProductEntity;
 import exceptions.CommandGestionException;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
@@ -26,21 +25,64 @@ import javax.persistence.OneToOne;
 import user.data.AddressImpl;
 
 @Entity
-public class ClientImpl implements Client, Serializable{
-    @ManyToOne(cascade=CascadeType.PERSIST)
+public class ClientImpl implements Client, Serializable {
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
     protected AddressImpl address;
     protected String firstname;
     protected String surname;
+    protected String username;
+    protected String password;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
-    @OneToOne(cascade=CascadeType.PERSIST)
-    protected Command command;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    protected CommandEntity command;
     protected PaypalInformation payapal = null;
     protected BankInformation bank = null;
 
-    public ClientImpl(){
-        /* TO COMPLETE */
+    public ClientImpl() {
+        command = new CommandEntity();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public CommandEntity getCommand() {
+        return command;
+    }
+
+    public void setCommand(CommandEntity command) {
+        this.command = command;
+    }
+
+    public PaypalInformation getPayapal() {
+        return payapal;
+    }
+
+    public void setPayapal(PaypalInformation payapal) {
+        this.payapal = payapal;
+    }
+
+    public BankInformation getBank() {
+        return bank;
+    }
+
+    public void setBank(BankInformation bank) {
+        this.bank = bank;
     }
 
     public String getFirstname() {
@@ -66,7 +108,7 @@ public class ClientImpl implements Client, Serializable{
     public void setAddress(AddressImpl address) {
         this.address = address;
     }
-    
+
     @Override
     public void changeAdresse(AddressImpl adr) {
         this.address = adr;
@@ -77,21 +119,22 @@ public class ClientImpl implements Client, Serializable{
         return this.id;
     }
 
+
     @Override
-    public void addProduct(Product product, int n) {
+    public void addProduct(ProductEntity product, int n) {
         if (command == null) {
-            command = new CommandImpl();
+            command = new CommandEntity();
         }
-        command.addProduct(product, n);
+        command.setQuantity(product, n);
     }
 
     @Override
-    public void delProduct(Product product, int n) 
+    public void delProduct(ProductEntity product, int n)
             throws CommandGestionException {
         if (command == null) {
             throw new CommandGestionException("No command found for this client");
         }
-        command.delProduct(product.getId(), n);
+        //command.delProduct(product.getId(), n);
     }
 
     @Override
@@ -116,5 +159,4 @@ public class ClientImpl implements Client, Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-    
 }

@@ -5,15 +5,18 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import user.ClientImpl;
+import user.ClientImpl_;
 
 /**
  * @author Samy
  */
 @Stateless
 public class ClientImplFacade extends AbstractFacade<ClientImpl> {
+
     @PersistenceContext(unitName = "ECOM-ejbPU")
     private EntityManager em;
 
@@ -25,6 +28,7 @@ public class ClientImplFacade extends AbstractFacade<ClientImpl> {
     public ClientImplFacade() {
         super(ClientImpl.class);
     }
+
     public void create(ClientImpl clientImpl) {
         em.persist(clientImpl);
     }
@@ -39,6 +43,22 @@ public class ClientImplFacade extends AbstractFacade<ClientImpl> {
 
     public ClientImpl find(Object id) {
         return em.find(ClientImpl.class, id);
+    }
+
+    public ClientImpl find(String username, String password) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ClientImpl> cq = cb.createQuery(ClientImpl.class);
+        Root<ClientImpl> ci = cq.from(ClientImpl.class);
+//        cq.where(cb.and(cb.equal(ci.get(ClientImpl_.username), username),
+//                (cb.equal(ci.get(ClientImpl_.password), password))));
+        cq.where(cb.equal(ci.get(ClientImpl_.username), username));
+
+        System.out.println("coucou");
+        System.out.println(cq.toString());
+        System.out.println(em.createQuery(cq).toString());
+        System.out.println("coucou");
+
+        return em.createQuery(cq).getSingleResult();
     }
 
     public List<ClientImpl> findAll() {
