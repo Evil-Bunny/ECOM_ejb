@@ -8,14 +8,14 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import user.ClientImpl;
-import user.ClientImpl_;
+import user.Client;
+import user.Client_;
 
 /**
  * @author Samy
  */
 @Stateless
-public class ClientImplFacade extends AbstractFacade<ClientImpl> {
+public class ClientFacade extends AbstractFacade<Client> {
 
     @PersistenceContext(unitName = "ECOM-ejbPU")
     private EntityManager em;
@@ -25,51 +25,46 @@ public class ClientImplFacade extends AbstractFacade<ClientImpl> {
         return em;
     }
 
-    public ClientImplFacade() {
-        super(ClientImpl.class);
+    public ClientFacade() {
+        super(Client.class);
     }
 
-    public void create(ClientImpl clientImpl) {
+    public void create(Client clientImpl) {
         em.persist(clientImpl);
     }
 
-    public void edit(ClientImpl clientImpl) {
+    public void edit(Client clientImpl) {
         em.merge(clientImpl);
     }
 
-    public void remove(ClientImpl clientImpl) {
+    public void remove(Client clientImpl) {
         em.remove(em.merge(clientImpl));
     }
 
-    public ClientImpl find(Object id) {
-        return em.find(ClientImpl.class, id);
+    public Client find(Object id) {
+        return em.find(Client.class, id);
     }
 
-    public ClientImpl find(String username, String password) {
+    public Client find(String username, String password) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<ClientImpl> cq = cb.createQuery(ClientImpl.class);
-        Root<ClientImpl> ci = cq.from(ClientImpl.class);
-//        cq.where(cb.and(cb.equal(ci.get(ClientImpl_.username), username),
-//                (cb.equal(ci.get(ClientImpl_.password), password))));
-        cq.where(cb.equal(ci.get(ClientImpl_.username), username));
-
-        System.out.println("coucou");
-        System.out.println(cq.toString());
-        System.out.println(em.createQuery(cq).toString());
-        System.out.println("coucou");
+        CriteriaQuery<Client> cq = cb.createQuery(Client.class);
+        Root<Client> ci = cq.from(Client.class);
+//        cq.where(cb.and(cb.equal(ci.get(Client_.username), username),
+//                (cb.equal(ci.get(Client_.password), password))));
+        cq.where(cb.equal(ci.get(Client_.username), username));
 
         return em.createQuery(cq).getSingleResult();
     }
 
-    public List<ClientImpl> findAll() {
+    public List<Client> findAll() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(ClientImpl.class));
+        cq.select(cq.from(Client.class));
         return em.createQuery(cq).getResultList();
     }
 
-    public List<ClientImpl> findRange(int[] range) {
+    public List<Client> findRange(int[] range) {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(ClientImpl.class));
+        cq.select(cq.from(Client.class));
         Query q = em.createQuery(cq);
         q.setMaxResults(range[1] - range[0]);
         q.setFirstResult(range[0]);
@@ -78,7 +73,7 @@ public class ClientImplFacade extends AbstractFacade<ClientImpl> {
 
     public int count() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        Root<ClientImpl> rt = cq.from(ClientImpl.class);
+        Root<Client> rt = cq.from(Client.class);
         cq.select(em.getCriteriaBuilder().count(rt));
         Query q = em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();

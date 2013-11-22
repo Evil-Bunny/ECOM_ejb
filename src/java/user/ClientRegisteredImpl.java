@@ -6,7 +6,7 @@ package user;
  * @creation date 2013-10-23
  * @last modification date 2013-10-23
  */
-public class ClientRegisteredImpl extends ClientImpl implements ClientRegistered{
+public class ClientRegisteredImpl extends Client implements ClientRegistered{
 
     public ClientRegisteredImpl(){
         /* TO COMPLETE */
@@ -14,7 +14,7 @@ public class ClientRegisteredImpl extends ClientImpl implements ClientRegistered
     
     @Override
     public ClientRegistered registerFromClient(Client c, String login, String pwd) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     

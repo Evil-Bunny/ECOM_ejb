@@ -1,5 +1,6 @@
 package ejb;
 
+import product.Product;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,7 +13,7 @@ import javax.persistence.criteria.Root;
  * @author Samy
  */
 @Stateless
-public class ProductEntityFacade extends AbstractFacade<ProductEntity> {
+public class ProductFacade extends AbstractFacade<Product> {
     @PersistenceContext(unitName = "ECOM-ejbPU")
     private EntityManager em;
 
@@ -21,35 +22,35 @@ public class ProductEntityFacade extends AbstractFacade<ProductEntity> {
         return em;
     }
 
-    public ProductEntityFacade() {
-        super(ProductEntity.class);
+    public ProductFacade() {
+        super(Product.class);
     }
 
-    public void create(ProductEntity productEntity) {
+    public void create(Product productEntity) {
         em.persist(productEntity);
     }
 
-    public void edit(ProductEntity productEntity) {
+    public void edit(Product productEntity) {
         em.merge(productEntity);
     }
 
-    public void remove(ProductEntity productEntity) {
+    public void remove(Product productEntity) {
         em.remove(em.merge(productEntity));
     }
 
-    public ProductEntity find(Object id) {
-        return em.find(ProductEntity.class, id);
+    public Product find(Object id) {
+        return em.find(Product.class, id);
     }
 
-    public List<ProductEntity> findAll() {
+    public List<Product> findAll() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(ProductEntity.class));
+        cq.select(cq.from(Product.class));
         return em.createQuery(cq).getResultList();
     }
 
-    public List<ProductEntity> findRange(int[] range) {
+    public List<Product> findRange(int[] range) {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(ProductEntity.class));
+        cq.select(cq.from(Product.class));
         Query q = em.createQuery(cq);
         q.setMaxResults(range[1] - range[0]);
         q.setFirstResult(range[0]);
@@ -58,7 +59,7 @@ public class ProductEntityFacade extends AbstractFacade<ProductEntity> {
 
     public int count() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        Root<ProductEntity> rt = cq.from(ProductEntity.class);
+        Root<Product> rt = cq.from(Product.class);
         cq.select(em.getCriteriaBuilder().count(rt));
         Query q = em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();

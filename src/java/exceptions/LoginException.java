@@ -28,7 +28,7 @@ public class LoginException extends Exception{
             case WRONG_PASSWORD :
                 return "Wrong password";
             default :
-                return "Unknow error append while login in, please try in fews minutes";
+                return "Unknown error happened while login in, please try in a few minutes";
         }
     }
 }

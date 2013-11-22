@@ -20,7 +20,7 @@ public class Manufacturer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    private String name;
     public Long getId() {
         return id;
     }
@@ -29,7 +29,6 @@ public class Manufacturer implements Serializable {
         this.id = id;
     }
     
-    private String name;
     
     public String getName() {
         return name;

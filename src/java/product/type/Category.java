@@ -1,4 +1,4 @@
-package user.data;
+package product.type;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -10,10 +10,10 @@ import javax.persistence.Id;
  * @author Samy
  */
 @Entity
-public class AddressImpl implements Serializable {
+public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int number;
-    private String name;
+    
+    private String categorie;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,20 +26,12 @@ public class AddressImpl implements Serializable {
         this.id = id;
     }
 
-    public int getNumber() {
-        return number;
+    public String getCategorie() {
+        return categorie;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
     }
 
     @Override
@@ -52,10 +44,10 @@ public class AddressImpl implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AddressImpl)) {
+        if (!(object instanceof Category)) {
             return false;
         }
-        AddressImpl other = (AddressImpl) object;
+        Category other = (Category) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -64,7 +56,7 @@ public class AddressImpl implements Serializable {
 
     @Override
     public String toString() {
-        return "user.data.AddressImpl[ id=" + id + " ]";
+        return "product.type.Categorie[ id=" + id + " ]";
     }
 
 }

@@ -14,8 +14,8 @@ import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import user.ClientImpl;
-import user.data.AddressImpl;
+import user.Client;
+import user.data.Address;
 
 /**
  *
@@ -41,11 +41,11 @@ public class NewMessage implements MessageListener {
         try {
             if (message instanceof ObjectMessage) { 
                 msg = (ObjectMessage) message;
-                if (msg.getObject() instanceof AddressImpl) {
-                    AddressImpl e = (AddressImpl) msg.getObject();
+                if (msg.getObject() instanceof Address) {
+                    Address e = (Address) msg.getObject();
                     save(e);
-                } else if (msg.getObject() instanceof ClientImpl) {
-                    ClientImpl e = (ClientImpl) msg.getObject();
+                } else if (msg.getObject() instanceof Client) {
+                    Client e = (Client) msg.getObject();
                     save(e);
                 }
 

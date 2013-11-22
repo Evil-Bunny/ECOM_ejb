@@ -1,5 +1,6 @@
 package ejb;
 
+import command.Command;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,7 +13,7 @@ import javax.persistence.criteria.Root;
  * @author Samy
  */
 @Stateless
-public class CommandEntityFacade extends AbstractFacade<CommandEntity> {
+public class CommandFacade extends AbstractFacade<Command> {
     @PersistenceContext(unitName = "ECOM-ejbPU")
     private EntityManager em;
 
@@ -21,34 +22,34 @@ public class CommandEntityFacade extends AbstractFacade<CommandEntity> {
         return em;
     }
 
-    public CommandEntityFacade() {
-        super(CommandEntity.class);
+    public CommandFacade() {
+        super(Command.class);
     }
-   public void create(CommandEntity commandEntity) {
+   public void create(Command commandEntity) {
         em.persist(commandEntity);
     }
 
-    public void edit(CommandEntity commandEntity) {
+    public void edit(Command commandEntity) {
         em.merge(commandEntity);
     }
 
-    public void remove(CommandEntity commandEntity) {
+    public void remove(Command commandEntity) {
         em.remove(em.merge(commandEntity));
     }
 
-    public CommandEntity find(Object id) {
-        return em.find(CommandEntity.class, id);
+    public Command find(Object id) {
+        return em.find(Command.class, id);
     }
 
-    public List<CommandEntity> findAll() {
+    public List<Command> findAll() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(CommandEntity.class));
+        cq.select(cq.from(Command.class));
         return em.createQuery(cq).getResultList();
     }
 
-    public List<CommandEntity> findRange(int[] range) {
+    public List<Command> findRange(int[] range) {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(CommandEntity.class));
+        cq.select(cq.from(Command.class));
         Query q = em.createQuery(cq);
         q.setMaxResults(range[1] - range[0]);
         q.setFirstResult(range[0]);
@@ -57,7 +58,7 @@ public class CommandEntityFacade extends AbstractFacade<CommandEntity> {
 
     public int count() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        Root<CommandEntity> rt = cq.from(CommandEntity.class);
+        Root<Command> rt = cq.from(Command.class);
         cq.select(em.getCriteriaBuilder().count(rt));
         Query q = em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();

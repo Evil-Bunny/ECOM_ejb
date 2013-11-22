@@ -1,7 +1,6 @@
-package ejb;
+package user.data;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,34 +10,13 @@ import javax.persistence.Id;
  * @author Samy
  */
 @Entity
-public class CommandEntity implements Serializable {
-
+public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
+    private int number;
+    private String name;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private HashMap<ProductEntity, Integer> products;
-
-    public CommandEntity() {
-        products = new HashMap<>();
-    }
-
-    
-    public HashMap<ProductEntity, Integer> getProducts() {
-        return products;
-    }
-
-    public void setProducts(HashMap<ProductEntity, Integer> products) {
-        this.products = products;
-    }
-
-    public Integer getQuantity(ProductEntity p) {
-        return products.get(p);
-    }
-
-    public void setQuantity(ProductEntity p, Integer i) {
-        products.put(p, i);
-    }
 
     public Long getId() {
         return id;
@@ -46,6 +24,22 @@ public class CommandEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -58,10 +52,10 @@ public class CommandEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CommandEntity)) {
+        if (!(object instanceof Address)) {
             return false;
         }
-        CommandEntity other = (CommandEntity) object;
+        Address other = (Address) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -70,6 +64,7 @@ public class CommandEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ejb.CommandEntity[ id=" + id + " ]";
+        return "user.data.AddressImpl[ id=" + id + " ]";
     }
+
 }
