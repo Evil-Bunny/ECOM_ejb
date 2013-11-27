@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
  * @author bousky
  */
 @Entity
-public class Manufacturer implements Serializable {
+public class Manufacturer implements Serializable, Comparable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "brand", fetch = FetchType.LAZY)
     private List<Product> products;
     private static final long serialVersionUID = 1L;
