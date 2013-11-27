@@ -9,7 +9,7 @@ package user;
  */
 import user.data.BankInformation;
 import user.data.PaypalInformation;
-import command.Command;
+import command.Cart;
 import product.Product;
 import exceptions.CommandGestionException;
 import java.io.Serializable;
@@ -18,16 +18,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import user.data.Address;
 
 @Entity
 public class Client implements Serializable {
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    protected Address address;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    protected Address addressDelivery;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    protected Address addressPayement;
     protected String firstname;
     protected String surname;
     protected String username;
@@ -36,14 +36,14 @@ public class Client implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
     @OneToOne(cascade = CascadeType.PERSIST)
-    protected Command command;
+    protected Cart command;
     @OneToOne(cascade = CascadeType.PERSIST)
     protected PaypalInformation payapal = null;
     @OneToOne(cascade = CascadeType.PERSIST)
     protected BankInformation bank = null;
 
     public Client() {
-        command = new Command();
+        command = new Cart();
     }
 
     public String getUsername() {
@@ -62,11 +62,11 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-    public Command getCommand() {
+    public Cart getCommand() {
         return command;
     }
 
-    public void setCommand(Command command) {
+    public void setCommand(Cart command) {
         this.command = command;
     }
 
@@ -102,17 +102,25 @@ public class Client implements Serializable {
         this.surname = surname;
     }
 
-    public Address getAddress() {
-        return address;
+    public Address getAddressDelivery() {
+        return addressDelivery;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddressDelivery(Address addressDelivery) {
+        this.addressDelivery = addressDelivery;
+    }
+
+    public Address getAddressPayement() {
+        return addressPayement;
+    }
+
+    public void setAddressPayement(Address addressPayement) {
+        this.addressPayement = addressPayement;
     }
 
     public void addProduct(Product product, int n) {
         if (command == null) {
-            command = new Command();
+            command = new Cart();
         }
         command.setQuantity(product, n);
     }

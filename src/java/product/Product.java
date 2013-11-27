@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import product.type.Category;
 
 /**
@@ -15,13 +14,11 @@ import product.type.Category;
  */
 @Entity
 public class Product implements Serializable {
-    //private static final long serialVersionUID = 1L;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Manufacturer brand;
     private String name;
     private Float price;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Category categorie;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

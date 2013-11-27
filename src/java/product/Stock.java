@@ -1,32 +1,26 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package product;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
- *
- * @author bousky
+ * @author Samy
  */
 @Entity
-public class Manufacturer implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "brand", fetch = FetchType.LAZY)
-    private List<Product> products;
+public class Stock implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Product product;
+    private Integer stock;
+
     public Long getId() {
         return id;
     }
@@ -34,22 +28,21 @@ public class Manufacturer implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
+
+    public Product getProduct() {
+        return product;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     @Override
@@ -62,10 +55,10 @@ public class Manufacturer implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Manufacturer)) {
+        if (!(object instanceof Stock)) {
             return false;
         }
-        Manufacturer other = (Manufacturer) object;
+        Stock other = (Stock) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -74,7 +67,7 @@ public class Manufacturer implements Serializable {
 
     @Override
     public String toString() {
-        return this.getName();
+        return "product.Stock[ id=" + id + " ]";
     }
-    
+
 }
