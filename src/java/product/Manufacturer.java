@@ -76,5 +76,10 @@ public class Manufacturer implements Serializable {
     public String toString() {
         return this.getName();
     }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.getName().compareTo(((Manufacturer)o).getName());
+    }
     
 }
