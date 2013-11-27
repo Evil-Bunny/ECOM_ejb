@@ -15,7 +15,7 @@ import javax.persistence.Id;
  * @author bousky
  */
 @Entity
-public class Manufacturer implements Serializable {
+public class Manufacturer implements Serializable, Comparable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,6 +61,11 @@ public class Manufacturer implements Serializable {
     @Override
     public String toString() {
         return this.getName();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.getName().compareTo(((Manufacturer)o).getName());
     }
     
 }
