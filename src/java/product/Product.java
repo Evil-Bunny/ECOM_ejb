@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import product.type.Category;
 
 /**
@@ -14,6 +15,8 @@ import product.type.Category;
  */
 @Entity
 public class Product implements Serializable {
+    @OneToOne(cascade = CascadeType.ALL)
+    private Stock stock;
     @ManyToOne(cascade = CascadeType.ALL)
     private Manufacturer brand;
     private String name;
@@ -23,6 +26,18 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    public Product() {
+        stock = new Stock(this, 1);
+    }
+    
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
 
     public Manufacturer getBrand() {
         return brand;

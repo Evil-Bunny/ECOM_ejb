@@ -18,6 +18,7 @@ import product.Product;
  */
 @Entity
 public class Category implements Serializable {
+
     @OneToMany(mappedBy = "categorie", fetch = FetchType.LAZY)
     private List<Product> products;
     @OneToOne(cascade = CascadeType.PERSIST, optional = true)
@@ -26,12 +27,11 @@ public class Category implements Serializable {
     @OneToMany(mappedBy = "parent")
     private List<Category> subCategories;
     private static final long serialVersionUID = 1L;
-    
     private String categorie;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
     public List<Product> getProducts() {
         return products;
     }
@@ -71,7 +71,7 @@ public class Category implements Serializable {
     public void setSubCategories(List<Category> subCategories) {
         this.subCategories = subCategories;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -96,5 +96,4 @@ public class Category implements Serializable {
     public String toString() {
         return "product.type.Categorie[ id=" + id + " ]";
     }
-
 }

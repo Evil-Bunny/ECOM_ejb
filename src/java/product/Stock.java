@@ -13,13 +13,22 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Stock implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "stock", cascade = CascadeType.ALL)
     private Product product;
     private Integer stock;
+
+    public Stock() {
+    }
+
+    public Stock(Product product, Integer stock) {
+        this.product = product;
+        this.stock = stock;
+    }
 
     public Long getId() {
         return id;
@@ -37,10 +46,14 @@ public class Stock implements Serializable {
         this.product = product;
     }
 
+    public void addStock(Integer i) {
+        stock += i;
+    }
+    
     public Integer getStock() {
         return stock;
     }
-
+    
     public void setStock(Integer stock) {
         this.stock = stock;
     }
@@ -69,5 +82,4 @@ public class Stock implements Serializable {
     public String toString() {
         return "product.Stock[ id=" + id + " ]";
     }
-
 }

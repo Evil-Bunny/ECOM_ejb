@@ -70,6 +70,15 @@ public class Cart implements Serializable {
         this.id = id;
     }
 
+    public Float getTotal() {
+        Float total = 0.0f;
+        for (LineCommand lineCommand : products) {
+            total += lineCommand.getProduct().getPrice() * lineCommand.getQuantity();
+        }
+
+        return total;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

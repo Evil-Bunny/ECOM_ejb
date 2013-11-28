@@ -12,7 +12,6 @@ import javax.persistence.Id;
 @Entity
 public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int number;
     private String name;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,14 +23,6 @@ public class Address implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     public String getName() {

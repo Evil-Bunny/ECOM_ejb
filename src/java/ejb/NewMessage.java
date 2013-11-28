@@ -17,10 +17,6 @@ import javax.persistence.PersistenceContext;
 import user.Client;
 import user.data.Address;
 
-/**
- *
- * @author nb
- */
 @MessageDriven(mappedName = "jms/NewMessage", activationConfig = {
     @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
