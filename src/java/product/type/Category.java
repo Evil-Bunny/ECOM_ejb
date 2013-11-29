@@ -18,7 +18,6 @@ import product.Product;
  */
 @Entity
 public class Category implements Serializable, Comparable {
-
     @OneToMany(mappedBy = "categorie", fetch = FetchType.LAZY)
     private List<Product> products;
     @OneToOne(cascade = CascadeType.PERSIST, optional = true)
@@ -99,6 +98,7 @@ public class Category implements Serializable, Comparable {
 
     @Override
     public int compareTo(Object o) {
-        return this.getCategorie().compareTo(((Category) o).getCategorie());
+        return this.getCategorie().compareTo(((Category)o).getCategorie());
     }
+
 }
