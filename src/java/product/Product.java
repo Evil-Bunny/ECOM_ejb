@@ -20,7 +20,6 @@ import product.type.LineCharacteristic;
 @Entity
 public class Product implements Serializable {
 
-    @OneToOne(cascade = CascadeType.ALL)
     private Integer stock = 0;
     @ManyToOne(cascade = CascadeType.ALL)
     private Manufacturer brand;
