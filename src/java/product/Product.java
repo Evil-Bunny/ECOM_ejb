@@ -1,41 +1,44 @@
 package product;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import product.type.Category;
+import product.type.LineCharacteristic;
 
 /**
  * @author Samy
  */
 @Entity
 public class Product implements Serializable {
+
     @OneToOne(cascade = CascadeType.ALL)
-    private Stock stock;
+    private Integer stock = 0;
     @ManyToOne(cascade = CascadeType.ALL)
     private Manufacturer brand;
     private String name;
     private Float price;
     @ManyToOne(cascade = CascadeType.ALL)
     private Category categorie;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<LineCharacteristic> productCaracteristics;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public Product() {
-        stock = new Stock(this, 1);
-    }
-    
-    public Stock getStock() {
+    public Integer getStock() {
         return stock;
     }
 
-    public void setStock(Stock stock) {
+    public void setStock(Integer stock) {
         this.stock = stock;
     }
 
@@ -69,6 +72,14 @@ public class Product implements Serializable {
 
     public void setCategorie(Category categorie) {
         this.categorie = categorie;
+    }
+
+    public List<LineCharacteristic> getProductCaracteristics() {
+        return productCaracteristics;
+    }
+
+    public void setProductCaracteristics(List<LineCharacteristic> productCaracteristics) {
+        this.productCaracteristics = productCaracteristics;
     }
 
     public Long getId() {

@@ -1,33 +1,28 @@
-package product;
+package product.type;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  * @author Samy
  */
 @Entity
-public class Stock implements Serializable {
-
+public class Characteristic implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    String name;
     private Long id;
-    @OneToOne(mappedBy = "stock", cascade = CascadeType.ALL)
-    private Product product;
-    private Integer stock;
 
-    public Stock() {
+    public String getName() {
+        return name;
     }
 
-    public Stock(Product product, Integer stock) {
-        this.product = product;
-        this.stock = stock;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -36,26 +31,6 @@ public class Stock implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public void addStock(Integer i) {
-        stock += i;
-    }
-    
-    public Integer getStock() {
-        return stock;
-    }
-    
-    public void setStock(Integer stock) {
-        this.stock = stock;
     }
 
     @Override
@@ -68,10 +43,10 @@ public class Stock implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Stock)) {
+        if (!(object instanceof Characteristic)) {
             return false;
         }
-        Stock other = (Stock) object;
+        Characteristic other = (Characteristic) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -80,6 +55,7 @@ public class Stock implements Serializable {
 
     @Override
     public String toString() {
-        return "product.Stock[ id=" + id + " ]";
+        return "product.type.Characteristic[ id=" + id + " ]";
     }
+
 }
