@@ -14,6 +14,7 @@ import product.Product;
 import exceptions.CommandGestionException;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,26 +25,27 @@ import user.data.Address;
 @Entity
 public class Client implements Serializable {
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     protected Address addressDelivery;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     protected Address addressPayement;
     protected String firstname;
     protected String surname;
+    @Column(unique=true)
     protected String username;
     protected String password;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
-    @OneToOne(cascade = CascadeType.PERSIST)
-    protected Cart command;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
+    protected Cart cart;
+    @OneToOne(cascade = CascadeType.ALL)
     protected PaypalInformation payapal = null;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     protected BankInformation bank = null;
 
     public Client() {
-        command = new Cart();
+        cart = new Cart();
     }
 
     public String getUsername() {
@@ -62,12 +64,12 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-    public Cart getCommand() {
-        return command;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setCommand(Cart command) {
-        this.command = command;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public PaypalInformation getPayapal() {
@@ -119,15 +121,15 @@ public class Client implements Serializable {
     }
 
     public void addProduct(Product product, int n) {
-        if (command == null) {
-            command = new Cart();
+        if (cart == null) {
+            cart = new Cart();
         }
-        command.setQuantity(product, n);
+        cart.setQuantity(product, n);
     }
 
     public void delProduct(Product product, int n)
             throws CommandGestionException {
-        if (command == null) {
+        if (cart == null) {
             throw new CommandGestionException("No command found for this client");
         }
         //command.delProduct(product.getId(), n);

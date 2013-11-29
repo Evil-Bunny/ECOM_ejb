@@ -10,7 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import product.type.Category;
 import product.type.LineCharacteristic;
 
@@ -18,14 +19,16 @@ import product.type.LineCharacteristic;
  * @author Samy
  */
 @Entity
+@Table(uniqueConstraints =
+        @UniqueConstraint(columnNames = {"BRAND_ID", "NAME"}))
 public class Product implements Serializable {
 
     private Integer stock = 0;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Manufacturer brand;
     private String name;
     private Float price;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Category categorie;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LineCharacteristic> productCaracteristics;
