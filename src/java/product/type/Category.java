@@ -17,7 +17,7 @@ import product.Product;
  * @author Samy
  */
 @Entity
-public class Category implements Serializable {
+public class Category implements Serializable, Comparable {
 
     @OneToMany(mappedBy = "categorie", fetch = FetchType.LAZY)
     private List<Product> products;
@@ -31,7 +31,7 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     public List<Product> getProducts() {
         return products;
     }
@@ -95,5 +95,10 @@ public class Category implements Serializable {
     @Override
     public String toString() {
         return "product.type.Categorie[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.getCategorie().compareTo(((Category) o).getCategorie());
     }
 }
