@@ -3,6 +3,7 @@ package product.type;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,12 +21,12 @@ import product.Product;
 public class Category implements Serializable, Comparable {
     @OneToMany(mappedBy = "categorie", fetch = FetchType.LAZY)
     private List<Product> products;
-    @OneToOne(cascade = CascadeType.PERSIST, optional = true)
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, optional = true)
     private Category parent;
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "parent")
     private List<Category> subCategories;
     private static final long serialVersionUID = 1L;
+    @Column(unique=true)
     private String categorie;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

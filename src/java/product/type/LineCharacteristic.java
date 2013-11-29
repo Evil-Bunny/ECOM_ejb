@@ -17,7 +17,7 @@ public class LineCharacteristic implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String name;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Characteristic characteristic;
     private Long id;
 

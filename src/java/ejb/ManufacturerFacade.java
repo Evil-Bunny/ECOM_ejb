@@ -8,7 +8,11 @@ import ejb.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import product.Manufacturer;
+import product.Manufacturer_;
 
 /**
  *
@@ -23,7 +27,13 @@ public class ManufacturerFacade extends AbstractFacade<Manufacturer> {
     protected EntityManager getEntityManager() {
         return em;
     }
-
+    public Manufacturer findByName(String name) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Manufacturer> cq = cb.createQuery(Manufacturer.class);
+        Root<Manufacturer> ci = cq.from(Manufacturer.class);
+        cq.where(cb.equal(ci.get(Manufacturer_.name), name));
+        return em.createQuery(cq).getSingleResult();
+    }
     public ManufacturerFacade() {
         super(Manufacturer.class);
     }
