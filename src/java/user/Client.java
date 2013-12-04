@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.UniqueConstraint;
 import user.data.Address;
 
 @Entity
@@ -43,6 +44,7 @@ public class Client implements Serializable {
     protected PaypalInformation payapal = null;
     @OneToOne(cascade = CascadeType.ALL)
     protected BankInformation bank = null;
+
 
     public Client() {
         cart = new Cart();
