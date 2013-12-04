@@ -19,7 +19,7 @@ import product.Product;
  */
 @Entity
 public class Category implements Serializable, Comparable {
-    @OneToMany(mappedBy = "categorie", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categorie", fetch = FetchType.EAGER)
     private List<Product> products;
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, optional = true)
     private Category parent;
