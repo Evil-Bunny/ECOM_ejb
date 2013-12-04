@@ -14,11 +14,13 @@ import product.Product;
 import exceptions.CommandGestionException;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.UniqueConstraint;
 import user.data.Address;
 
 @Entity
@@ -30,6 +32,8 @@ public class Client implements Serializable {
     protected Address addressPayement;
     protected String firstname;
     protected String surname;
+    
+    @Column(unique=true)
     protected String username;
     protected String password;
     @Id
@@ -41,6 +45,7 @@ public class Client implements Serializable {
     protected PaypalInformation payapal = null;
     @OneToOne(cascade = CascadeType.PERSIST)
     protected BankInformation bank = null;
+
 
     public Client() {
         command = new Cart();
