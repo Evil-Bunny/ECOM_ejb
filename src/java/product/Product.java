@@ -1,28 +1,48 @@
 package product;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import product.type.Category;
+import product.type.LineCharacteristic;
 
 /**
  * @author Samy
  */
 @Entity
+@Table(uniqueConstraints =
+        @UniqueConstraint(columnNames = {"BRAND_ID", "NAME"}))
 public class Product implements Serializable {
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    private Integer stock = 0;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Manufacturer brand;
     private String name;
     private Float price;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Category categorie;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<LineCharacteristic> productCaracteristics;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
 
     public Manufacturer getBrand() {
         return brand;
@@ -54,6 +74,14 @@ public class Product implements Serializable {
 
     public void setCategorie(Category categorie) {
         this.categorie = categorie;
+    }
+
+    public List<LineCharacteristic> getProductCaracteristics() {
+        return productCaracteristics;
+    }
+
+    public void setProductCaracteristics(List<LineCharacteristic> productCaracteristics) {
+        this.productCaracteristics = productCaracteristics;
     }
 
     public Long getId() {

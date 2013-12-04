@@ -21,7 +21,7 @@ public class LineCommand implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private Product product;
     private Integer quantity;
-
+    private Float price;
     public LineCommand() {
     }
 
@@ -53,7 +53,19 @@ public class LineCommand implements Serializable {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
     
+    public Float storePrice(){
+        price = product.getPrice()*getQuantity();
+        return price;
+    }
     @Override
     public int hashCode() {
         int hash = 0;

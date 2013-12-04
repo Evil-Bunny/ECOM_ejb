@@ -1,21 +1,48 @@
-package user.data;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package product;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
- * @author Samy
+ *
+ * @author bousky
  */
 @Entity
-public class Address implements Serializable {
+public class HomeAd implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String name;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @OneToOne
+    private Product product;
+
+    private String name;
+    
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public String getName() {
+        return name;
+    }
+    
 
     public Long getId() {
         return id;
@@ -23,14 +50,6 @@ public class Address implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
@@ -43,10 +62,10 @@ public class Address implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Address)) {
+        if (!(object instanceof HomeAd)) {
             return false;
         }
-        Address other = (Address) object;
+        HomeAd other = (HomeAd) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -55,7 +74,7 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "user.data.AddressImpl[ id=" + id + " ]";
+        return "product.HomeAd[ id=" + id + " ]";
     }
-
+    
 }

@@ -15,12 +15,14 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Command implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<LineCommand> products;
+    private Float total;
 
     public List<LineCommand> getProducts() {
         return products;
@@ -29,13 +31,24 @@ public class Command implements Serializable {
     public void setProducts(List<LineCommand> products) {
         this.products = products;
     }
-    
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void storePrices() {
+        total = 0f;
+        for (LineCommand lineCommand : products) {
+            total += lineCommand.storePrice();
+        }
+    }
+
+    public Float getTotal() {
+        return total;
     }
 
     @Override
@@ -62,5 +75,4 @@ public class Command implements Serializable {
     public String toString() {
         return "command.Command[ id=" + id + " ]";
     }
-
 }

@@ -7,6 +7,7 @@ package product;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,12 +21,13 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Manufacturer implements Serializable, Comparable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "brand", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "brand", fetch = FetchType.EAGER)
     private List<Product> products;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique=true)
     private String name;
     public Long getId() {
         return id;
