@@ -11,7 +11,7 @@ import javax.persistence.Id;
  * @author Samy
  */
 @Entity
-public class Characteristic implements Serializable {
+public class Characteristic implements Serializable, Comparable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,6 +59,11 @@ public class Characteristic implements Serializable {
     @Override
     public String toString() {
         return "product.type.Characteristic[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.getName().compareTo(((Characteristic)o).getName());
     }
 
 }
