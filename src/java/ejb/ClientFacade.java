@@ -3,6 +3,7 @@ package ejb;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -49,11 +50,14 @@ public class ClientFacade extends AbstractFacade<Client> {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Client> cq = cb.createQuery(Client.class);
         Root<Client> ci = cq.from(Client.class);
-//        cq.where(cb.and(cb.equal(ci.get(Client_.username), username),
-//                (cb.equal(ci.get(Client_.password), password))));
-        cq.where(cb.equal(ci.get(Client_.username), username));
-
-        return em.createQuery(cq).getSingleResult();
+        cq.where(cb.equal(ci.get(Client_.username), username), cb.equal(ci.get(Client_.password), password));
+        try
+        {
+            return em.createQuery(cq).getSingleResult();
+        }catch (NoResultException exception)
+        {
+            return null;
+        }
     }
 
     public List<Client> findAll() {
