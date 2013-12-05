@@ -2,6 +2,7 @@ package command;
 
 import product.Product;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,6 +26,7 @@ public class Cart implements Serializable {
     private List<LineCommand> products;
 
     public Cart() {
+        products = new ArrayList<>();
     }
 
     public List<LineCommand> getProducts() {
