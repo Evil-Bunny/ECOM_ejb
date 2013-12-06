@@ -7,13 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import product.Product;
 
 /**
  * @author Samy
  */
 @Entity
 public class LineCharacteristic implements Serializable {
-
+    @ManyToOne
+    private Product product;
     private static final long serialVersionUID = 1L;
     private String name;
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -21,6 +23,15 @@ public class LineCharacteristic implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public String getName() {
         return name;
