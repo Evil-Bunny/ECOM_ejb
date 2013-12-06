@@ -1,5 +1,6 @@
 package ejb;
 
+import java.util.ArrayList;
 import java.util.List;
 import product.Product;
 import javax.ejb.Stateless;
@@ -58,26 +59,50 @@ public class ProductFacade extends AbstractFacade<Product> {
         Predicate p = cb.conjunction();
         CriteriaQuery<Product> cq = cb.createQuery(Product.class);
         From c = cq.from(Product.class);
-        if (characs != null && ! characs.isEmpty()) {
+        // JOIN buggué, filtrage fait plus loin à la main
+        /*if (characs != null && ! characs.isEmpty()) {
             c = c.join(Product_.productCaracteristics).join(LineCharacteristic_.characteristic);
             for (LineCharacteristic lc : characs) {
-                p = cb.and(p, cb.and(cb.equal(c.get(Characteristic_.name), lc.getCharacteristic().getName()), cb.like(c.get(LineCharacteristic_.name), lc.getName())));
+                p = cb.and(p, cb.and(cb.equal(c.get(Characteristic_.name), lc.getCharacteristic().getName()), cb.like(cb.upper(c.get(LineCharacteristic_.name)), "%"+lc.getName().toUpperCase()+"%")));
             }
-        }
+        }*/
         if (name != null && ! name.equals(""))
-            p = cb.and(p, cb.like(c.get(Product_.name), name));
+            p = cb.and(p, cb.like(cb.upper(c.get(Product_.name)), "%"+name.toUpperCase()+"%"));
         if (category != null)
             p = cb.and(p, cb.equal(c.get(Product_.categorie), category));
         if (brand != null)
             p = cb.and(p, cb.equal(c.get(Product_.brand), brand));
         if (stock)
-            p = cb.and(p, cb.not(cb.equal(c.get(Product_.stock), 0)));
+            p = cb.and(p, cb.notEqual(c.get(Product_.stock), 0));
         if (minPrice != 0)
             p = cb.and(p, cb.ge(c.get(Product_.price), minPrice));
         if (maxPrice != 0)
             p = cb.and(p, cb.le(c.get(Product_.price), maxPrice));
-        return getEntityManager().createQuery(cq.where(p)).getResultList();
-}
+        List<Product> rq =
+        /*return*/ getEntityManager().createQuery(cq.where(p)).getResultList();
+        // "JOIN" manuel
+        List<Product> ret = new ArrayList();
+        for (Product prod : rq) {
+            boolean b1 = true;
+            for (LineCharacteristic lc1 : characs) {
+                boolean b2 = false;
+                for (LineCharacteristic lc2 : prod.getProductCaracteristics()) {
+                    if (lc1.getCharacteristic().equals(lc2.getCharacteristic()) && lc2.getName().toUpperCase().matches(".*"+lc1.getName().toUpperCase()+".*")) {
+                        b2 = true;
+                        break;
+                    }
+                }
+                if (!b2) {
+                    b1 = false;
+                    break;
+                }
+            }
+            if (b1) {
+                ret.add(prod);
+            }
+        }
+        return ret;
+    }
 
     public ProductFacade() {
         super(Product.class);
