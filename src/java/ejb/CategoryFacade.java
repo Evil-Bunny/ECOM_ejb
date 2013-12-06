@@ -41,4 +41,12 @@ public class CategoryFacade extends AbstractFacade<Category> {
     public CategoryFacade() {
         super(Category.class);
     }
+    
+    public List<Category> search(String s) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Category> cq = cb.createQuery(Category.class);
+        Root<Category> c = cq.from(Category.class);
+        cq.where(cb.like(cb.upper(c.get(Category_.categorie)), "%"+s.toUpperCase()+"%"));
+        return em.createQuery(cq).getResultList();        
+    }
 }

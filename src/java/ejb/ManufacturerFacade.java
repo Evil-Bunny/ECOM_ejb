@@ -5,6 +5,7 @@
 package ejb;
 
 import ejb.AbstractFacade;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -14,6 +15,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import product.Manufacturer;
 import product.Manufacturer_;
+import product.type.Category;
+import product.type.Category_;
 
 /**
  *
@@ -40,6 +43,14 @@ public class ManufacturerFacade extends AbstractFacade<Manufacturer> {
         } catch (NoResultException exception) {
             return null;
         }
+    }
+    
+    public List<Manufacturer> search(String s) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Manufacturer> cq = cb.createQuery(Manufacturer.class);
+        Root<Manufacturer> c = cq.from(Manufacturer.class);
+        cq.where(cb.like(cb.upper(c.get(Manufacturer_.name)), "%"+s.toUpperCase()+"%"));
+        return em.createQuery(cq).getResultList();        
     }
 
     public ManufacturerFacade() {
