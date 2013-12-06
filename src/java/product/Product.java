@@ -30,7 +30,7 @@ public class Product implements Serializable {
     private Float price;
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Category categorie;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<LineCharacteristic> productCaracteristics;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

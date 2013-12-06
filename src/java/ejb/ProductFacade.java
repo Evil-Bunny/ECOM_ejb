@@ -13,6 +13,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import product.Manufacturer;
+import product.Manufacturer_;
 import product.Product_;
 import product.type.Category;
 import product.type.Characteristic;
@@ -69,7 +70,7 @@ public class ProductFacade extends AbstractFacade<Product> {
         if (name != null && ! name.equals(""))
             p = cb.and(p, cb.like(cb.upper(c.get(Product_.name)), "%"+name.toUpperCase()+"%"));
         if (category != null)
-            p = cb.and(p, cb.equal(c.get(Product_.categorie), category));
+            p = cb.and(p, cb.or(cb.equal(c.get(Product_.categorie), category), c.get(Product_.categorie).in(category.getSubCategories())));
         if (brand != null)
             p = cb.and(p, cb.equal(c.get(Product_.brand), brand));
         if (stock)
@@ -103,6 +104,15 @@ public class ProductFacade extends AbstractFacade<Product> {
         }
         return ret;
     }
+    
+    public List<Product> search(String s) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> cq = cb.createQuery(Product.class);
+        Root<Product> c = cq.from(Product.class);
+        cq.where(cb.like(cb.upper(c.get(Product_.name)), "%"+s.toUpperCase()+"%"));
+        return em.createQuery(cq).getResultList();        
+    }
+
 
     public ProductFacade() {
         super(Product.class);

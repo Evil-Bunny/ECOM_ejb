@@ -1,5 +1,7 @@
 package ejb;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -47,17 +49,33 @@ public class ClientFacade extends AbstractFacade<Client> {
     }
 
     public Client find(String username, String password) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Client> cq = cb.createQuery(Client.class);
-        Root<Client> ci = cq.from(Client.class);
-        cq.where(cb.equal(ci.get(Client_.username), username), cb.equal(ci.get(Client_.password), password));
-        try
-        {
-            return em.createQuery(cq).getSingleResult();
-        }catch (NoResultException exception)
-        {
+
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+            byte byteData[] = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < byteData.length; i++) {
+                String hex = Integer.toHexString(0xff & byteData[i]);
+                if (hex.length() == 1) {
+                    sb.append('0');
+                }
+                sb.append(hex);
+            }
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Client> cq = cb.createQuery(Client.class);
+            Root<Client> ci = cq.from(Client.class);
+            cq.where(cb.equal(ci.get(Client_.username), username), cb.equal(ci.get(Client_.password), sb.toString()));
+            try {
+                return em.createQuery(cq).getSingleResult();
+            } catch (NoResultException exception) {
+                return null;
+            }
+        } catch (NoSuchAlgorithmException e) {
             return null;
         }
+
     }
 
     public List<Client> findAll() {

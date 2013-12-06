@@ -13,6 +13,8 @@ import command.Cart;
 import product.Product;
 import exceptions.CommandGestionException;
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +34,7 @@ public class Client implements Serializable {
     protected Address addressPayement;
     protected String firstname;
     protected String surname;
-    @Column(unique=true)
+    @Column(unique = true)
     protected String username;
     protected String password;
     @Id
@@ -44,7 +46,6 @@ public class Client implements Serializable {
     protected PaypalInformation payapal = null;
     @OneToOne(cascade = CascadeType.ALL)
     protected BankInformation bank = null;
-
 
     public Client() {
         cart = new Cart();
@@ -63,7 +64,23 @@ public class Client implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+            byte byteData[] = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < byteData.length; i++) {
+                String hex = Integer.toHexString(0xff & byteData[i]);
+                if (hex.length() == 1) {
+                    sb.append('0');
+                }
+                sb.append(hex);
+            }
+            
+            this.password = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+        }
     }
 
     public Cart getCart() {
