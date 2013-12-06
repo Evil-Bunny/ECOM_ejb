@@ -7,6 +7,7 @@ package ejb;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -32,7 +33,18 @@ public class CategoryFacade extends AbstractFacade<Category> {
         cq.where(cb.equal(c.get(Category_.parent),null));
         return em.createQuery(cq).getResultList();
     }
-
+    public Category findByName(String name) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Category> cq = cb.createQuery(Category.class);
+        Root<Category> ci = cq.from(Category.class);
+        cq.where(cb.equal(ci.get(Category_.categorie), name));
+        try {
+            return em.createQuery(cq).getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
+        }
+    }
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
