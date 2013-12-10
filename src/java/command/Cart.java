@@ -63,6 +63,12 @@ public class Cart implements Serializable {
     public void addProduct(Product p, Integer i) {
         products.add(new LineCommand(p, i));
     }
+    
+    public void delProduct(LineCommand product) {
+        if (this.products.contains(product)){
+            this.products.remove(product);
+        }
+    }
 
     public Long getId() {
         return id;
