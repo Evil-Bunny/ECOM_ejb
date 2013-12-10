@@ -34,6 +34,7 @@ public class Client implements Serializable {
     protected Address addressPayement;
     protected String firstname;
     protected String surname;
+    protected String mail;
     @Column(unique = true)
     protected String username;
     protected String password;
@@ -61,6 +62,14 @@ public class Client implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public void setPassword(String password) {
