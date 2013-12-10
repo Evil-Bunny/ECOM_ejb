@@ -17,6 +17,14 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    public Address() {
+    }
+    
+    public Address(String name) {
+        this.name = name;
+    }
+
+    
     public Long getId() {
         return id;
     }
