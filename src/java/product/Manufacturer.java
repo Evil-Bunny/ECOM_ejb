@@ -5,6 +5,7 @@
 package product;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,6 +30,11 @@ public class Manufacturer implements Serializable, Comparable {
     private Long id;
     @Column(unique=true)
     private String name;
+
+    public Manufacturer() {
+        products = new ArrayList<>();
+    }
+    
     public Long getId() {
         return id;
     }
