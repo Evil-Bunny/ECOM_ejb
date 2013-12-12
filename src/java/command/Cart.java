@@ -29,6 +29,18 @@ public class Cart implements Serializable {
         products = new ArrayList<>();
     }
 
+    public int IndexProduit(Product p) {
+        int i = 0;
+        for ( LineCommand lc : products) {
+            if ((lc.getProduct().getId()).equals(p.getId())) {
+                System.out.println("index : "+i);
+                 return i;
+            }
+            i++;
+        }
+         return -1;
+    }
+    
     public List<LineCommand> getProducts() {
         return products;
     }
