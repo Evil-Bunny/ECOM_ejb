@@ -33,7 +33,6 @@ public class Cart implements Serializable {
         int i = 0;
         for ( LineCommand lc : products) {
             if ((lc.getProduct().getId()).equals(p.getId())) {
-                System.out.println("index : "+i);
                  return i;
             }
             i++;
