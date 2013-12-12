@@ -22,7 +22,7 @@ public class Cart implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<LineCommand> products;
 
     public Cart() {
@@ -63,9 +63,9 @@ public class Cart implements Serializable {
     public void addProduct(Product p, Integer i) {
         products.add(new LineCommand(p, i));
     }
-    
+
     public void delProduct(LineCommand product) {
-        if (this.products.contains(product)){
+        if (this.products.contains(product)) {
             this.products.remove(product);
         }
     }
@@ -85,6 +85,23 @@ public class Cart implements Serializable {
         }
 
         return total;
+    }
+
+    public void merge(Cart cart) {
+        boolean existe;
+        for (LineCommand command : cart.getProducts()) {
+            existe = false;
+            for (LineCommand cmd : products)   {
+                if (command.getProduct().getId() == cmd.getProduct().getId()) {
+                    cmd.setQuantity(cmd.getQuantity()+command.getQuantity());
+                    existe = true;
+                }
+            }
+            if (!existe)
+            {
+                products.add(new LineCommand(command.getProduct(), command.getQuantity()));
+            }
+        }
     }
 
     @Override
