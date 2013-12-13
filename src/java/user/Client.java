@@ -10,19 +10,22 @@ package user;
 import user.data.BankInformation;
 import user.data.PaypalInformation;
 import command.Cart;
+import command.Command;
 import product.Product;
 import exceptions.CommandGestionException;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.UniqueConstraint;
 import user.data.Address;
 
 @Entity
@@ -47,6 +50,8 @@ public class Client implements Serializable {
     protected PaypalInformation payapal = null;
     @OneToOne(cascade = CascadeType.ALL)
     protected BankInformation bank = null;
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "client", fetch = FetchType.EAGER)
+    protected List<Command> commands;
 
     public Client() {
         cart = new Cart();
@@ -161,6 +166,14 @@ public class Client implements Serializable {
             throw new CommandGestionException("No command found for this client");
         }
         //command.delProduct(product.getId(), n);
+    }
+
+    public List<Command> getCommands() {
+        return commands;
+    }
+
+    public void setCommands(List<Command> commands) {
+        this.commands = commands;
     }
 
     public Long getId() {

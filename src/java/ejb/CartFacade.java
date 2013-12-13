@@ -1,6 +1,6 @@
 package ejb;
 
-import command.Command;
+import command.Cart;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
  * @author Samy
  */
 @Stateless
-public class CommandFacade extends AbstractFacade<Command> {
+public class CartFacade extends AbstractFacade<Cart> {
     @PersistenceContext(unitName = "ECOM-ejbPU")
     private EntityManager em;
 
@@ -18,8 +18,7 @@ public class CommandFacade extends AbstractFacade<Command> {
         return em;
     }
 
-    public CommandFacade() {
-        super(Command.class);
+    public CartFacade() {
+        super(Cart.class);
     }
-
 }

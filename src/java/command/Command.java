@@ -8,7 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import user.Client;
 
 /**
  * @author Samy
@@ -22,6 +24,8 @@ public class Command implements Serializable {
     private Long id;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<LineCommand> products;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Client client;
     private Float total;
 
     public List<LineCommand> getProducts() {
@@ -45,6 +49,14 @@ public class Command implements Serializable {
         for (LineCommand lineCommand : products) {
             total += lineCommand.storePrice();
         }
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Float getTotal() {
