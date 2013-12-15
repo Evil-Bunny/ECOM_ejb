@@ -66,6 +66,7 @@ public class Category implements Serializable, Comparable {
     }
 
     public void setParent(Category parent) {
+        parent.getSubCategories().add(this);
         this.parent = parent;
     }
 

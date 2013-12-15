@@ -49,6 +49,7 @@ public class Product implements Serializable {
     }
 
     public void setBrand(Manufacturer brand) {
+        brand.getProducts().add(this);
         this.brand = brand;
     }
 
@@ -73,6 +74,7 @@ public class Product implements Serializable {
     }
 
     public void setCategorie(Category categorie) {
+        categorie.getProducts().add(this);
         this.categorie = categorie;
     }
 
