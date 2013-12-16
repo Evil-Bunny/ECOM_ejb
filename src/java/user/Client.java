@@ -16,6 +16,7 @@ import exceptions.CommandGestionException;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -55,6 +56,7 @@ public class Client implements Serializable {
 
     public Client() {
         cart = new Cart();
+        commands = new ArrayList<>();
     }
 
     public String getUsername() {

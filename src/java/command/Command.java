@@ -1,6 +1,7 @@
 package command;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 import user.Client;
 
 /**
@@ -27,9 +29,33 @@ public class Command implements Serializable {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Client client;
     private Float total;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateCommand;
+    private boolean expediee;
 
+    public Command() {
+        this.dateCommand = new Date();
+        this.expediee = false;
+    }
+
+    public boolean isExpediee() {
+        return expediee;
+    }
+
+    public void setExpediee(boolean expediee) {
+        this.expediee = expediee;
+    }
+    
     public List<LineCommand> getProducts() {
         return products;
+    }
+
+    public Date getDateCommand() {
+        return dateCommand;
+    }
+
+    public void setDateCommand(Date dateCommand) {
+        this.dateCommand = dateCommand;
     }
 
     public void setProducts(List<LineCommand> products) {
