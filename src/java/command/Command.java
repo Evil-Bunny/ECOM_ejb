@@ -34,7 +34,6 @@ public class Command implements Serializable {
     private boolean expediee;
 
     public Command() {
-        this.dateCommand = new Date();
         this.expediee = false;
     }
 
