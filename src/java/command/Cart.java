@@ -32,15 +32,15 @@ public class Cart implements Serializable {
 
     public int IndexProduit(Product p) {
         int i = 0;
-        for ( LineCommand lc : products) {
+        for (LineCommand lc : products) {
             if ((lc.getProduct().getId()).equals(p.getId())) {
-                 return i;
+                return i;
             }
             i++;
         }
-         return -1;
+        return -1;
     }
-    
+
     public List<LineCommand> getProducts() {
         return products;
     }
@@ -62,11 +62,14 @@ public class Cart implements Serializable {
         boolean found = false;
         for (LineCommand lc : products) {
             if (lc.getProduct().getName().equals(p.getName())) {
+                lc.getProduct().setStock(p.getStock() - (i - lc.getQuantity()));
+                p.setStock(p.getStock() - (i - lc.getQuantity()));
                 lc.setQuantity(i);
                 found = true;
             }
         }
         if (!found) {
+            p.setStock(p.getStock() - i);
             products.add(new LineCommand(p, i));
         }
 
@@ -103,14 +106,13 @@ public class Cart implements Serializable {
         boolean existe;
         for (LineCommand command : cart.getProducts()) {
             existe = false;
-            for (LineCommand cmd : products)   {
+            for (LineCommand cmd : products) {
                 if (command.getProduct().getId() == cmd.getProduct().getId()) {
-                    cmd.setQuantity(cmd.getQuantity()+command.getQuantity());
+                    cmd.setQuantity(cmd.getQuantity() + command.getQuantity());
                     existe = true;
                 }
             }
-            if (!existe)
-            {
+            if (!existe) {
                 products.add(new LineCommand(command.getProduct(), command.getQuantity()));
             }
         }
