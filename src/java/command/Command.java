@@ -31,18 +31,18 @@ public class Command implements Serializable {
     private Float total;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateCommand;
-    private boolean expediee;
+    private boolean sent;
 
     public Command() {
-        this.expediee = false;
+        this.sent = false;
     }
 
     public boolean isExpediee() {
-        return expediee;
+        return sent;
     }
 
     public void setExpediee(boolean expediee) {
-        this.expediee = expediee;
+        this.sent = expediee;
     }
     
     public List<LineCommand> getProducts() {
