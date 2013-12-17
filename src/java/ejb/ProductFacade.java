@@ -9,17 +9,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.From;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import product.Manufacturer;
-import product.Manufacturer_;
 import product.Product_;
 import product.type.Category;
-import product.type.Characteristic;
-import product.type.Characteristic_;
 import product.type.LineCharacteristic;
-import product.type.LineCharacteristic_;
 
 /**
  * @author Samy
@@ -69,8 +64,12 @@ public class ProductFacade extends AbstractFacade<Product> {
         }*/
         if (name != null && ! name.equals(""))
             p = cb.and(p, cb.like(cb.upper(c.get(Product_.name)), "%"+name.toUpperCase()+"%"));
-        if (category != null)
-            p = cb.and(p, cb.or(cb.equal(c.get(Product_.categorie), category), c.get(Product_.categorie).in(category.getSubCategories())));
+        if (category != null) {
+            if (category.getSubCategories() == null || category.getSubCategories().isEmpty())
+                p = cb.and(p, cb.equal(c.get(Product_.categorie), category));
+            else
+                p = cb.and(p, cb.or(cb.equal(c.get(Product_.categorie), category), c.get(Product_.categorie).in(category.getSubCategories())));
+        }
         if (brand != null)
             p = cb.and(p, cb.equal(c.get(Product_.brand), brand));
         if (stock)
