@@ -69,8 +69,12 @@ public class ProductFacade extends AbstractFacade<Product> {
         }*/
         if (name != null && ! name.equals(""))
             p = cb.and(p, cb.like(cb.upper(c.get(Product_.name)), "%"+name.toUpperCase()+"%"));
-        if (category != null)
-            p = cb.and(p, cb.or(cb.equal(c.get(Product_.categorie), category), c.get(Product_.categorie).in(category.getSubCategories())));
+        if (category != null) {
+            if (category.getSubCategories() == null || category.getSubCategories().isEmpty())
+                p = cb.and(p, cb.equal(c.get(Product_.categorie), category));
+            else
+                p = cb.and(p, cb.or(cb.equal(c.get(Product_.categorie), category), c.get(Product_.categorie).in(category.getSubCategories())));
+        }
         if (brand != null)
             p = cb.and(p, cb.equal(c.get(Product_.brand), brand));
         if (stock)
