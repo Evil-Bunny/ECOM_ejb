@@ -9,17 +9,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.From;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import product.Manufacturer;
-import product.Manufacturer_;
 import product.Product_;
 import product.type.Category;
-import product.type.Characteristic;
-import product.type.Characteristic_;
 import product.type.LineCharacteristic;
-import product.type.LineCharacteristic_;
 
 /**
  * @author Samy

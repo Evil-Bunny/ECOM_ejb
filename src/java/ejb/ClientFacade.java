@@ -32,25 +32,7 @@ public class ClientFacade extends AbstractFacade<Client> {
         super(Client.class);
     }
 
-    public void create(Client clientImpl) {
-        em.persist(clientImpl);
-    }
-
-    public void edit(Client clientImpl) {
-        em.merge(clientImpl);
-    }
-
-    public void remove(Client clientImpl) {
-        em.remove(em.merge(clientImpl));
-    }
-
-    public Client find(Object id) {
-        return em.find(Client.class, id);
-    }
-
-    public Client find(String username, String password) {
-
-
+   public Client find(String username, String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(password.getBytes());
@@ -75,29 +57,5 @@ public class ClientFacade extends AbstractFacade<Client> {
         } catch (NoSuchAlgorithmException e) {
             return null;
         }
-
-    }
-
-    public List<Client> findAll() {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Client.class));
-        return em.createQuery(cq).getResultList();
-    }
-
-    public List<Client> findRange(int[] range) {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Client.class));
-        Query q = em.createQuery(cq);
-        q.setMaxResults(range[1] - range[0]);
-        q.setFirstResult(range[0]);
-        return q.getResultList();
-    }
-
-    public int count() {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        Root<Client> rt = cq.from(Client.class);
-        cq.select(em.getCriteriaBuilder().count(rt));
-        Query q = em.createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
     }
 }
