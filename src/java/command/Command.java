@@ -81,7 +81,9 @@ public class Command implements Serializable {
     }
 
     public void setClient(Client client) {
-        client.getCommands().add(this);
+        if (client!=null){
+            client.getCommands().add(this);
+        }
         this.client = client;
     }
 
